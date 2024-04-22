@@ -50,21 +50,22 @@ def main():
     rating = st.slider("Rate the restaurant:", 1, 5, 1, key='rating')
     
     # Submit button for the review
-    if st.button("Submit Review"):
-        selected_restaurant = df[df['name'] == restaurant_choice].iloc[0]
-        new_review = {
-            'Name': name,
-            'Comment': comment,
-            'Rating': rating,
-            'Restaurant': restaurant_choice,
-            'Address': selected_restaurant['address'],
-            'Categories': ', '.join(selected_restaurant['category_titles']),
-            'Latitude': selected_restaurant['latitude'],
-            'Longitude': selected_restaurant['longitude']
-        }
-        # Add to session state
-        st.session_state.reviews = st.session_state.reviews.append(new_review, ignore_index=True)
-        st.success("Thank you for your review!")
+if st.button("Submit Review"):
+    selected_restaurant = df[df['name'] == restaurant_choice].iloc[0]
+    new_review = {
+        'Name': name,
+        'Comment': comment,
+        'Rating': rating,
+        'Restaurant': restaurant_choice,
+        'Address': selected_restaurant['address'],
+        'Categories': ', '.join(selected_restaurant['category_titles']),
+        'Latitude': selected_restaurant['latitude'],
+        'Longitude': selected_restaurant['longitude']
+    }
+    # Append to session state
+    st.session_state.reviews = pd.concat([st.session_state.reviews, pd.DataFrame([new_review])], ignore_index=True)
+    st.success("Thank you for your review!")
+
 
     # Display all reviews
     st.write("All Reviews:")
