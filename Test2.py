@@ -56,8 +56,9 @@ def main():
                 'Address': selected_restaurant['address'],
                 'Categories': ', '.join(selected_restaurant['category_titles'])
             }
-            # Add to session state
-            st.session_state.reviews = st.session_state.reviews.append(new_review, ignore_index=True)
+            # Use a temporary DataFrame to append and update the session state
+            temp_reviews = st.session_state.reviews.append(new_review, ignore_index=True)
+            st.session_state.reviews = temp_reviews
             st.success("Thank you for your review!")
 
         # Display all reviews
