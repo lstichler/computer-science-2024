@@ -1,23 +1,15 @@
 import streamlit as st
-
-def main():
-    st.title("Displaying Text with Streamlit")
-    st.header("St. Gallo")
-    
-if __name__ == "__main__":
-    main()
-
-import streamlit as st
 import pandas as pd
 import requests
+import pydeck as pdk
 
 # Function to extract 'title' from categories
 def extract_titles(categories):
     return [category['title'] for category in categories]
 
-# Function to extract the first address line
-def extract_address(location):
-    return location.get('address1', '')
+# Function to extract the first address line and coordinates
+def extract_address_and_coords(location):
+    return location.get('address1', ''), location.get('coordinate', {'latitude': 0, 'longitude': 0})
 
 # Function to fetch and clean restaurant data
 def fetch_restaurants(location):
@@ -29,9 +21,13 @@ def fetch_restaurants(location):
 
     df = pd.DataFrame(data["businesses"])
     df['category_titles'] = df['categories'].apply(extract_titles)
-    df['address'] = df['location'].apply(extract_address)
+    df[['address', 'coords']] = df['location'].apply(lambda loc: pd.Series(extract_address_and_coords(loc)))
     df = df.drop(['categories', 'location'], axis=1)
     return df
+
+# Initialize session state for reviews
+if 'reviews' not in st.session_state:
+    st.session_state['reviews'] = pd.DataFrame(columns=['Name', 'Comment', 'Rating', 'Restaurant', 'Address', 'Categories', 'Latitude', 'Longitude'])
 
 # Streamlit layout
 def main():
@@ -46,7 +42,7 @@ def main():
         restaurant_choice = st.sidebar.selectbox("Choose a restaurant:", df['name'])
         
         # Filter data frame to get selected restaurant
-        selected_restaurant = df[df['name'] == restaurant_choice]
+        selected_restaurant = df[df['name'] == restaurant_choice].iloc[0]
         
         # User input for review
         name = st.sidebar.text_input("Enter your name:")
@@ -55,24 +51,45 @@ def main():
         
         # Button to submit review
         if st.sidebar.button("Submit Review"):
-            # Display user review and restaurant info
-            st.sidebar.success("Thank you for your review!")
-            # Creating a DataFrame for displaying reviews
-            review_data = {
-                'Name': [name],
-                'Comment': [comment],
-                'Rating': [rating],
-                'Restaurant': [restaurant_choice],
-                'Address': [selected_restaurant.iloc[0]['address']],
-                'Categories': [', '.join(selected_restaurant.iloc[0]['category_titles'])],
-                'Image': [selected_restaurant.iloc[0]['image_url']]
+            new_review = {
+                'Name': name,
+                'Comment': comment,
+                'Rating': rating,
+                'Restaurant': restaurant_choice,
+                'Address': selected_restaurant['address'],
+                'Categories': ', '.join(selected_restaurant['category_titles']),
+                'Latitude': selected_restaurant['coords']['latitude'],
+                'Longitude': selected_restaurant['coords']['longitude']
             }
-            review_df = pd.DataFrame(review_data)
-            st.dataframe(review_df[['Name', 'Comment', 'Rating', 'Restaurant', 'Address', 'Categories']])
-            
-            # Option to view image
-            if st.button('Show Image'):
-                st.image(selected_restaurant.iloc[0]['image_url'], width=300)
+            # Add to session state
+            st.session_state.reviews = st.session_state.reviews.append(new_review, ignore_index=True)
+            st.sidebar.success("Thank you for your review!")
+
+        # Display all reviews
+        st.write("All Reviews:")
+        st.dataframe(st.session_state.reviews.drop(['Latitude', 'Longitude'], axis=1))
+        
+        # Display reviews on a map
+        st.write("Map of Reviewed Restaurants:")
+        map_data = st.session_state.reviews[['Latitude', 'Longitude']].dropna()
+        st.pydeck_chart(pdk.Deck(
+             map_style='mapbox://styles/mapbox/light-v9',
+             initial_view_state=pdk.ViewState(
+                 latitude=map_data['Latitude'].mean(),
+                 longitude=map_data['Longitude'].mean(),
+                 zoom=11,
+                 pitch=50,
+             ),
+             layers=[
+                 pdk.Layer(
+                    'ScatterplotLayer',
+                    data=map_data,
+                    get_position='[Longitude, Latitude]',
+                    get_color='[200, 30, 0, 160]',
+                    get_radius=200,
+                 ),
+             ],
+         ))
 
 if __name__ == "__main__":
     main()
