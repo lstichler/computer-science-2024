@@ -22,7 +22,7 @@ def extract_address(location):
 # Function to fetch and clean restaurant data
 def fetch_restaurants(location):
     url = "https://api.yelp.com/v3/businesses/search"
-    headers = {"Authorization": "Bearer YOUR_API_KEY_HERE"}
+    headers = {"Authorization": "Bearer EN2FsqhUn487c-Hh4FeZGlJKk9i6bCC1kW45fmc4TQx1zw2sQ8CNGM57G3olkT4OYLcDtHHU_PVyJKaIIboLtnlVledeI6-UAwAor6xhNLIZxxqQ-EgExHGMXDAlZnYx"}
     params = {"term": "restaurants", "location": location}
     response = requests.get(url, headers=headers, params=params)
     data = response.json()
