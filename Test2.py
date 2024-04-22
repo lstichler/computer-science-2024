@@ -2,16 +2,6 @@ import streamlit as st
 import pandas as pd
 import requests
 
-#Defining the four different pages, one "Welcome" page, one where
-#you get the recipes, one where you get the cocktails and one where you can store 
-#your favourite recipe
-PAGES = {
-    f"{welcome_emoji} Welcome": None,
-    f"{food_emoji} Recipe Ideas": None,
-    f"{cocktail_emoji} Cocktail Ideas": None,
-    f"{favorite_emoji } Favorite Recipes": None,
-}
-
 # API function to get restaurants by location
 def get_restaurants(location):
     url = "https://api.yelp.com/v3/businesses/search"
