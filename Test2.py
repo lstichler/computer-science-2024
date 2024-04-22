@@ -52,15 +52,20 @@ def main():
             comment = st.text_area("Your comment")
             rating = st.slider("Your rating", 1, 5, 1)
             
-            # Submit review
-            if st.button("Submit Review"):
+            # Submit review button
+            submit_pressed = st.button("Submit Review")
+            if submit_pressed:
                 # Add the review to the DataFrame
                 st.session_state.reviews = add_entry(st.session_state.reviews, restaurant_choice, comment, name, rating, restaurant_id)
                 st.success("Review submitted successfully!")
 
+                # Displaying the submitted review in a separate table
+                st.subheader("Recently Submitted Review:")
+                st.table(st.session_state.reviews.tail(1))  # Show only the last submitted review
+
             # Displaying all reviews in a table
             if not st.session_state.reviews.empty:
-                st.write("All Reviews:")
+                st.subheader("All Reviews:")
                 st.dataframe(st.session_state.reviews)
         else:
             st.write("No restaurants found in this location.")
