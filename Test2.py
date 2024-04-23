@@ -18,7 +18,7 @@ def set_bg_image():
 
 set_bg_image()
 
-st.image("FC_St._Gallen_logo.png", width=100)
+st.image("Logo Food Cirlce.png", width=100)
 
 # API function to get restaurants by location
 def get_restaurants(location):
