@@ -53,10 +53,12 @@ def set_text_color():
 
 set_text_color()
 
-st.write('FoodCircle!')
+st.write('
 
 def main():
     st.title("FoodCircle")
+    
+    ')
     
     # Session state to store reviews
     if 'reviews' not in st.session_state:
