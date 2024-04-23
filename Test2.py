@@ -7,7 +7,7 @@ def set_bg_image():
         """
         <style>
         .stApp {
-            background-image: url("https://addons-media.operacdn.com/media/CACHE/images/themes/13/225513/1.0-rev1/images/96bc8dd9d3d0c76b53ea5783bfeaa39d/93a84aba738c1fe2ce5e2174a02d3a10.jpg");
+            background-image: url("https://cdn.pixabay.com/photo/2016/10/20/20/47/background-1756615_1280.jpg");
             background-size: cover;
             background-position: center;
         }
