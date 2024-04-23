@@ -48,7 +48,7 @@ def main():
             submit_pressed = st.button("Submit Review")
             if submit_pressed:
                 # Add the review to the DataFrame
-                new_review = pd.Dataframe({
+                new_review = pd.DataFrame({
                     'Restaurant': restaurant,
                     'Comment': comment,
                     'Name': name,
