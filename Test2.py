@@ -27,7 +27,7 @@ def main():
     
     # Session state to store reviews
     if 'reviews' not in st.session_state:
-        st.session_state.reviews = pd.DataFrame(columns=['Restaurant', 'Comment', 'Name', 'Rating', 'Restaurant ID'])
+        st.session_state.reviews = pd.DataFrame(columns=['Restaurant', 'Comment', 'Name', 'Rating', 'Restaurant ID', 'Adress'])
 
     # User selects a location
     location = st.text_input("Enter a location (e.g., 'San Francisco')", "")
