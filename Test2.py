@@ -20,6 +20,9 @@ set_bg_image()
 
 st.image("Logo Food Cirlce.png", width=150)
 
+@st.cache
+def load_data():
+
 # API function to get restaurants by location
 def get_restaurants(location):
     url = "https://api.yelp.com/v3/businesses/search"
@@ -36,6 +39,8 @@ def get_restaurants(location):
         return pd.DataFrame(data["businesses"])
     else:
         return pd.DataFrame()
+
+ return pd.read_csv('restaurant_reviews.csv')
 
 # Function to add entry to the review DataFrame
 
