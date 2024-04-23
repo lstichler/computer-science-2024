@@ -2,6 +2,9 @@ import streamlit as st
 import pandas as pd
 import requests
 
+pip install streamlit-extras
+from streamlit_extras.app_logo import add_logo
+
 # API function to get restaurants by location
 def get_restaurants(location):
     url = "https://api.yelp.com/v3/businesses/search"
