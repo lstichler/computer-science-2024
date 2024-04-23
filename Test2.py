@@ -2,6 +2,23 @@ import streamlit as st
 import pandas as pd
 import requests
 
+def set_bg_image():
+    st.markdown(
+        """
+        <style>
+        .stApp {
+            background-image: url("https://static-cse.canva.com/blob/861844/Canva-MADZ_3_yS9I-brunch.jpg");
+            background-size: cover;
+            background-position: center;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
+set_bg_image()
+st.title("Ihre Streamlit-Anwendung mit Hintergrundbild")
+
 st.image("FC_St._Gallen_logo.png", width=100)
 
 # API function to get restaurants by location
