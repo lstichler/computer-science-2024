@@ -2,20 +2,6 @@ import streamlit as st
 import pandas as pd
 import requests
 
-# Setzt Custom CSS ein
-def set_text_color():
-    st.markdown("""
-    <style>
-    .stApp {
-        color: white;
-    }
-    </style>
-    """, unsafe_allow_html=True)
-
-set_text_color()
-
-st.write('Der Text sollte jetzt weiß sein!')
-
 def set_bg_image():
     st.markdown(
         """
@@ -54,6 +40,21 @@ def get_restaurants(location):
 # Function to add entry to the review DataFrame
 
 # Main app
+
+# Setzt Custom CSS ein
+def set_text_color():
+    st.markdown("""
+    <style>
+    .stApp {
+        color: white;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
+set_text_color()
+
+st.write('FoodCircle!')
+
 def main():
     st.title("FoodCircle")
     
