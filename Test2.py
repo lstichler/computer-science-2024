@@ -1,9 +1,19 @@
 import streamlit as st
+from streamlit_extras.app_logo import add_logo
+
+# add kitten logo
+add_logo("https://placekitten.com/100/100")
+
+# add sidebar buttons
+st.sidebar.button("Button")
+st.sidebar.button("Button 2")
+
+# add sidebar filters
+st.sidebar.slider("Slider", 0, 100, 50)
+st.sidebar.date_input("Date Input")
+
 import pandas as pd
 import requests
-
-pip install streamlit-extras
-from streamlit_extras.app_logo import add_logo
 
 # API function to get restaurants by location
 def get_restaurants(location):
