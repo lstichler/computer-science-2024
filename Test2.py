@@ -2,19 +2,6 @@ import streamlit as st
 import pandas as pd
 import requests
 
-from streamlit_extras.app_logo import add_logo
-
-    # add kitten logo
-    add_logo("https://upload.wikimedia.org/wikipedia/commons/e/e3/FC_St._Gallen_logo.svg")
-    
-    # add sidebar buttons
-    st.sidebar.button("Button")
-    st.sidebar.button("Button 2")
-    
-    # add sidebar filters
-    st.sidebar.slider("Slider", 0, 100, 50)
-    st.sidebar.date_input("Date Input")
-
 # API function to get restaurants by location
 def get_restaurants(location):
     url = "https://api.yelp.com/v3/businesses/search"
