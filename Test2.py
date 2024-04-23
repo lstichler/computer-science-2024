@@ -49,7 +49,7 @@ def main():
             if submit_pressed:
                 # Add the review to the DataFrame
                 new_review = pd.DataFrame({
-                    'Restaurant': restaurant,
+                    'Restaurant': restaurant_choice,
                     'Comment': comment,
                     'Name': name,
                     'Rating': rating,
