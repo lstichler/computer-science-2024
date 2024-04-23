@@ -48,13 +48,13 @@ def main():
             submit_pressed = st.button("Submit Review")
             if submit_pressed:
                 # Add the review to the DataFrame
-                new_review = pd.DataFrame({
+                new_review = pd.DataFrame([{
                     'Restaurant': restaurant_choice,
                     'Comment': comment,
                     'Name': name,
                     'Rating': rating,
                     'Restaurant ID': restaurant_id
-                })
+                }])
                 st.session_state.reviews = pd.concat([st.session_state.reviews, new_review], axis=0)
                 st.success("Review submitted successfully!")
 
