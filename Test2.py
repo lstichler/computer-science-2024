@@ -41,24 +41,8 @@ def get_restaurants(location):
 
 # Main app
 
-# Setzt Custom CSS ein
-def set_text_color():
-    st.markdown("""
-    <style>
-    .stApp {
-        color: white;
-    }
-    </style>
-    """, unsafe_allow_html=True)
-
-set_text_color()
-
-st.write('
-
 def main():
     st.title("FoodCircle")
-    
-    ')
     
     # Session state to store reviews
     if 'reviews' not in st.session_state:
