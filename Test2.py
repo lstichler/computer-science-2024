@@ -20,14 +20,6 @@ def get_restaurants(location):
         return pd.DataFrame()
 
 # Function to add entry to the review DataFrame
-def add_entry(df, restaurant, comment, name, rating, restaurant_id):
-    return df.append({
-        'Restaurant': restaurant,
-        'Comment': comment,
-        'Name': name,
-        'Rating': rating,
-        'Restaurant ID': restaurant_id
-    }, ignore_index=True)
 
 # Main app
 def main():
@@ -56,7 +48,14 @@ def main():
             submit_pressed = st.button("Submit Review")
             if submit_pressed:
                 # Add the review to the DataFrame
-                st.session_state.reviews = add_entry(st.session_state.reviews, restaurant_choice, comment, name, rating, restaurant_id)
+                new_review = pd.Dataframe({
+                    'Restaurant': restaurant,
+                    'Comment': comment,
+                    'Name': name,
+                    'Rating': rating,
+                    'Restaurant ID': restaurant_id
+                })
+                st.session_state.reviews = pd.concat([st.session_state.reviews, new_review], axis=0)
                 st.success("Review submitted successfully!")
 
                 # Displaying the submitted review in a separate table
