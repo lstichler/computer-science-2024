@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 import requests
 
+st.image("FC_St._Gallen_logo.png", width=100)
+
 # API function to get restaurants by location
 def get_restaurants(location):
     url = "https://api.yelp.com/v3/businesses/search"
