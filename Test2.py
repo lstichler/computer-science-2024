@@ -38,6 +38,7 @@ def main():
             # User selects a restaurant
             restaurant_choice = st.selectbox("Select a restaurant", restaurants_df['name'])
             restaurant_id = restaurants_df[restaurants_df['name'] == restaurant_choice]['id'].iloc[0]
+            restaurant_address = restaurants_df[restaurants_df['name'] == restaurant_choice]['address'].iloc[0]
             
             # User inputs
             name = st.text_input("Your name")
@@ -54,7 +55,7 @@ def main():
                     'Name': name,
                     'Rating': rating,
                     'Restaurant ID': restaurant_id,
-                    'Address': address
+                    'Address': restaurant_address
                 }])
                 st.session_state.reviews = pd.concat([st.session_state.reviews, new_review], axis=0)
                 st.success("Review submitted successfully!")
