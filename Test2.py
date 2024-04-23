@@ -7,7 +7,7 @@ def set_bg_image():
         """
         <style>
         .stApp {
-            background-image: url("https://static-cse.canva.com/blob/861844/Canva-MADZ_3_yS9I-brunch.jpg");
+            background-image: url("https://addons-media.operacdn.com/media/CACHE/images/themes/13/225513/1.0-rev1/images/96bc8dd9d3d0c76b53ea5783bfeaa39d/93a84aba738c1fe2ce5e2174a02d3a10.jpg");
             background-size: cover;
             background-position: center;
         }
@@ -17,7 +17,6 @@ def set_bg_image():
     )
 
 set_bg_image()
-st.title("Ihre Streamlit-Anwendung mit Hintergrundbild")
 
 st.image("FC_St._Gallen_logo.png", width=100)
 
@@ -42,7 +41,7 @@ def get_restaurants(location):
 
 # Main app
 def main():
-    st.title("Restaurant Reviews")
+    st.title("FoodCircle")
     
     # Session state to store reviews
     if 'reviews' not in st.session_state:
