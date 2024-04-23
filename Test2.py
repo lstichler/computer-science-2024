@@ -27,7 +27,7 @@ def main():
     
     # Session state to store reviews
     if 'reviews' not in st.session_state:
-        st.session_state.reviews = pd.DataFrame(columns=['Restaurant', 'Comment', 'Name', 'Rating', 'Restaurant ID', 'Adress', 'Category'])
+        st.session_state.reviews = pd.DataFrame(columns=['Restaurant', 'Comment', 'Name', 'Rating', 'Restaurant ID', 'Address', 'Category'])
 
     # User selects a location
     location = st.text_input("Enter a location (e.g., 'San Francisco')", "")
@@ -53,7 +53,8 @@ def main():
                     'Comment': comment,
                     'Name': name,
                     'Rating': rating,
-                    'Restaurant ID': restaurant_id
+                    'Restaurant ID': restaurant_id,
+                    'Address': address
                 }])
                 st.session_state.reviews = pd.concat([st.session_state.reviews, new_review], axis=0)
                 st.success("Review submitted successfully!")
