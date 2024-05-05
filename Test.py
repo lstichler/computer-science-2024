@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import requests
-from geopy.geocoders import Nominatim
 
 def set_bg_image():
     st.markdown(
@@ -19,8 +18,7 @@ def set_bg_image():
 
 set_bg_image()
 
-# Initialize a geocoder
-geolocator = Nominatim(user_agent="streamlit_app")
+st.image("Logo Food Circle.png", width=150)
 
 # API function to get restaurants by location
 def get_restaurants(location):
@@ -41,22 +39,13 @@ def get_restaurants(location):
     else:
         return pd.DataFrame()
 
-def geocode_address(address):
-    # Attempt to geocode an address, return None on failure
-    try:
-        location = geolocator.geocode(address)
-        if location:
-            return location.latitude, location.longitude
-    except:
-        return None, None
-
 # Main app
 def main():
     st.title("FoodCircle")
     
     # Session state to store reviews
     if 'reviews' not in st.session_state:
-        st.session_state.reviews = pd.DataFrame(columns=['Restaurant', 'Comment', 'Name', 'Rating', 'Address', 'Latitude', 'Longitude'])
+        st.session_state.reviews = pd.DataFrame(columns=['Restaurant', 'Comment', 'Name', 'Rating', 'Restaurant ID', 'Address'])
 
     # User selects a location
     location = st.text_input("Enter a location (e.g., 'San Francisco')", "")
@@ -76,25 +65,21 @@ def main():
             # Submit review button
             submit_pressed = st.button("Submit Review")
             if submit_pressed:
-                # Geocode address to get latitude and longitude
-                lat, lon = geocode_address(selected_restaurant['Address'])
-                
                 # Add the review to the DataFrame
                 new_review = pd.DataFrame([{
                     'Restaurant': restaurant_choice,
                     'Comment': comment,
                     'Name': name,
                     'Rating': rating,
-                    'Address': selected_restaurant['Address'],
-                    'Latitude': lat,
-                    'Longitude': lon
+                    'Restaurant ID': selected_restaurant['id'],
+                    'Address': selected_restaurant['Address']
                 }])
                 st.session_state.reviews = pd.concat([st.session_state.reviews, new_review], axis=0)
                 st.success("Review submitted successfully!")
 
                 # Displaying the submitted review in a separate table
                 st.subheader("Recently Submitted Review:")
-                st.table(st.session_state.reviews.tail(1))
+                st.table(st.session_state.reviews.tail(1))  # Show only the last submitted review
 
             # Displaying all reviews in a table
             if not st.session_state.reviews.empty:
@@ -111,11 +96,6 @@ def main():
                 filtered_reviews = filtered_reviews[(filtered_reviews['Rating'] >= filter_rating[0]) & (filtered_reviews['Rating'] <= filter_rating[1])]
                 
                 st.dataframe(filtered_reviews)
-
-                # Display map with markers for all reviews
-                map_data = filtered_reviews.dropna(subset=['Latitude', 'Longitude'])
-                st.map(map_data)
-
         else:
             st.write("No restaurants found in this location.")
 
