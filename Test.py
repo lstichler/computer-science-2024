@@ -18,7 +18,7 @@ def set_bg_image():
 
 set_bg_image()
 
-st.image("Logo Food Cirlce.png", width=150)
+st.image("Logo Food Circle.png", width=150)
 
 # API function to get restaurants by location
 def get_restaurants(location):
@@ -33,7 +33,9 @@ def get_restaurants(location):
     response = requests.get(url, headers=headers, params=params)
     data = response.json()
     if data and "businesses" in data:
-        return pd.DataFrame(data["businesses"])
+        df = pd.DataFrame(data["businesses"])
+        df['Address'] = df['location'].apply(lambda x: ', '.join(x['display_address']))  # Extract and format the address
+        return df[['id', 'name', 'Address']]
     else:
         return pd.DataFrame()
 
@@ -43,7 +45,7 @@ def main():
     
     # Session state to store reviews
     if 'reviews' not in st.session_state:
-        st.session_state.reviews = pd.DataFrame(columns=['Restaurant', 'Comment', 'Name', 'Rating', 'Restaurant ID', 'Address', 'Category'])
+        st.session_state.reviews = pd.DataFrame(columns=['Restaurant', 'Comment', 'Name', 'Rating', 'Restaurant ID', 'Address'])
 
     # User selects a location
     location = st.text_input("Enter a location (e.g., 'San Francisco')", "")
@@ -53,7 +55,7 @@ def main():
         if not restaurants_df.empty:
             # User selects a restaurant
             restaurant_choice = st.selectbox("Select a restaurant", restaurants_df['name'])
-            restaurant_id = restaurants_df[restaurants_df['name'] == restaurant_choice]['id'].iloc[0]
+            selected_restaurant = restaurants_df[restaurants_df['name'] == restaurant_choice].iloc[0]
             
             # User inputs
             name = st.text_input("Your name")
@@ -69,7 +71,8 @@ def main():
                     'Comment': comment,
                     'Name': name,
                     'Rating': rating,
-                    'Restaurant ID': restaurant_id
+                    'Restaurant ID': selected_restaurant['id'],
+                    'Address': selected_restaurant['Address']
                 }])
                 st.session_state.reviews = pd.concat([st.session_state.reviews, new_review], axis=0)
                 st.success("Review submitted successfully!")
