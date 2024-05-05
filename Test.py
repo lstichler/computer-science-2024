@@ -71,7 +71,6 @@ def main():
                     'Comment': comment,
                     'Name': name,
                     'Rating': rating,
-                    'Restaurant ID': selected_restaurant['id'],
                     'Address': selected_restaurant['Address']
                 }])
                 st.session_state.reviews = pd.concat([st.session_state.reviews, new_review], axis=0)
