@@ -18,7 +18,7 @@ def set_bg_image():
 
 set_bg_image()
 
-st.image("Logo Food Cirlce.png", width=150)
+st.image("Logo Food Circle.png", width=150)
 
 # API function to get restaurants by location
 def get_restaurants(location):
@@ -45,7 +45,7 @@ def main():
     
     # Session state to store reviews
     if 'reviews' not in st.session_state:
-        st.session_state.reviews = pd.DataFrame(columns=['Restaurant', 'Comment', 'Name', 'Rating', 'Restaurant ID', 'Address'])
+        st.session_state.reviews = pd.DataFrame(columns=['Restaurant', 'Comment', 'Name', 'Rating', 'Address'])
 
     # User selects a location
     location = st.text_input("Enter a location (e.g., 'San Francisco')", "")
