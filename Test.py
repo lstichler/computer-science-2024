@@ -100,6 +100,7 @@ def main():
                     with st.echo():
                         st.write(restaurant_id)
                         try:
+                            st.write(restaurants_df[restaurants_df['id'] == restaurant_id)
                             restaurant_coords = restaurants_df[restaurants_df['id'] == restaurant_id]['coordinates'][0]
                             st.write(restaurant_coords)
                             coords.loc[len(coords)] = [restaurant_coords['latitude'], restaurant_coords['longitude']]
