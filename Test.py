@@ -99,7 +99,7 @@ def main():
                 for restaurant_id in filtered_reviews['Restaurant ID']:
                     try:
                         restaurant_coords = restaurants_df[restaurants_df['id'] == restaurant_id]['coordinates'][0]
-                        coords.loc[len(coords)] = [restaurant_coords[0]['latitude'], restaurant_coords[0]['longitude']]
+                        coords.loc[len(coords)] = [restaurant_coords['latitude'], restaurant_coords['longitude']]
                     except:
                         continue
 
