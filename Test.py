@@ -95,8 +95,14 @@ def main():
                 filtered_reviews = filtered_reviews[(filtered_reviews['Rating'] >= filter_rating[0]) & (filtered_reviews['Rating'] <= filter_rating[1])]
                 
                 st.dataframe(filtered_reviews)
+                coords = pd.DataFrame(columns=['lat', 'lon'])
+                for restaurant_id in filtered_reviews['Restaurant ID']:
+                    coords.add(restaurants_df[restaurants_df['id'] == restaurant_id]['coordinates'])
+
+                st.map(coords)
         else:
             st.write("No restaurants found in this location.")
 
 if __name__ == "__main__":
     main()
+
