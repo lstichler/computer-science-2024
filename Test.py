@@ -32,7 +32,7 @@ def get_restaurants(location):
     data = response.json()
     if data and "businesses" in data:
         df = pd.DataFrame(data["businesses"])
-        df['Address'] = df['location'].apply(lambda x: ', '.join(x['display_address']))  # Extract and format the address
+        df['Address'] = df['location'].apply(lambda x: ' '.join(x['display_address']))  # Format the address
         return df[['id', 'name', 'Address']]
     else:
         return pd.DataFrame()
@@ -82,18 +82,7 @@ def main():
             # Displaying all reviews in a table
             if not st.session_state.reviews.empty:
                 st.subheader("All Reviews:")
-                
-                # Filter options
-                filter_name = st.text_input("Filter by name")
-                filter_rating = st.slider("Filter by rating", 1, 5, (1, 5), step=1)
-                
-                # Applying filters
-                filtered_reviews = st.session_state.reviews
-                if filter_name:
-                    filtered_reviews = filtered_reviews[filtered_reviews['Name'].str.contains(filter_name, case=False)]
-                filtered_reviews = filtered_reviews[(filtered_reviews['Rating'] >= filter_rating[0]) & (filtered_reviews['Rating'] <= filter_rating[1])]
-                
-                st.dataframe(filtered_reviews)
+                st.dataframe(st.session_state.reviews)
         else:
             st.write("No restaurants found in this location.")
 
