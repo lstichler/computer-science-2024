@@ -22,7 +22,7 @@ set_bg_image()
 def get_restaurants(location):
     url = "https://api.yelp.com/v3/businesses/search"
     headers = {
-        "Authorization": "Bearer EN2FsqhUn487c-Hh4FeZGlJKk9i6bCC1kW45fmc4TQx1zw2sQ8CNGM57G3olkT4OYLcDtHHU_PVyJKaIIboLtnlVledeI6-UAwAor6xhNLIZxxqQ-EgExHGMXDAlZnYx"
+        "Authorization": "Bearer Z4AzleKttcjVgnC9rKeBjGyLSwc4jb8NGl2rrkfaCLqapjvWji6JbJY0L67msVF7wN-orTsDg-RyfxsmNX1b26ukk9y75-nQDpX0ryOECLn7AX4XJd3r56e6iAc-ZnYx
     }
     params = {
         "term": "restaurants",
