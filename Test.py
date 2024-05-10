@@ -97,11 +97,15 @@ def main():
                 st.dataframe(filtered_reviews)
                 coords = pd.DataFrame(columns=['lat', 'lon'])
                 for restaurant_id in filtered_reviews['Restaurant ID']:
-                    try:
-                        restaurant_coords = restaurants_df[restaurants_df['id'] == restaurant_id]['coordinates'][0]
-                        coords.loc[len(coords)] = [restaurant_coords['latitude'], restaurant_coords['longitude']]
-                    except:
-                        continue
+                    with st.echo():
+                        st.write(restaurant_id)
+                        try:
+                            restaurant_coords = restaurants_df[restaurants_df['id'] == restaurant_id]['coordinates'][0]
+                            st.write(restaurant_coords)
+                            coords.loc[len(coords)] = [restaurant_coords['latitude'], restaurant_coords['longitude']]
+                        except:
+                            st.write("failed")
+                            continue
 
                 st.map(coords)
         else:
