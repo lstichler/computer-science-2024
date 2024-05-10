@@ -25,7 +25,7 @@ def get_restaurants(location):
     url = "https://api.yelp.com/v3/businesses/search"
     headers = {
         "Authorization": "Bearer 6fvAUhr3oMOOOEmGybAjxAoqlAmWx31FhbvGnWw5R8jIhAfvIZVSXmT4GFYMeJsGKwb-0zX_pfD_CMpIVtEzHBdZ10EZ-fvzHkb_PYhtiJ9BHx4Ng359IGfz8Ak-ZnYx",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.96 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.96 Safari/537.36",
         "accept": "application/json"
     }
     params = {
@@ -35,7 +35,11 @@ def get_restaurants(location):
     response = requests.get(url, headers=headers, params=params)
     data = response.json()
     if data and "businesses" in data:
-        return pd.DataFrame(data["businesses"])
+        df = pd.DataFrame(data["businesses"])
+        # Extract latitude and longitude if coordinates exist
+        df['lat'] = df['coordinates'].apply(lambda x: x.get('latitude') if isinstance(x, dict) else None)
+        df['lon'] = df['coordinates'].apply(lambda x: x.get('longitude') if isinstance(x, dict) else None)
+        return df
     else:
         return pd.DataFrame()
 
@@ -45,7 +49,7 @@ def main():
     
     # Session state to store reviews
     if 'reviews' not in st.session_state:
-        st.session_state.reviews = pd.DataFrame(columns=['Restaurant', 'Comment', 'Name', 'Rating', 'Restaurant ID', 'Address', 'Category'])
+        st.session_state.reviews = pd.DataFrame(columns=['Restaurant', 'Comment', 'Name', 'Rating', 'Restaurant ID'])
 
     # User selects a location
     location = st.text_input("Enter a location (e.g., 'San Francisco')", "")
@@ -97,16 +101,13 @@ def main():
                 st.dataframe(filtered_reviews)
                 coords = pd.DataFrame(columns=['lat', 'lon'])
                 for restaurant_id in filtered_reviews['Restaurant ID']:
-                    with st.echo():
-                        st.write(restaurant_id)
-                        try:
-                            st.write(restaurants_df[restaurants_df['id'] == restaurant_id])
-                            restaurant_coords = restaurants_df[restaurants_df['id'] == restaurant_id]['coordinates'][0]
-                            st.write(restaurant_coords)
-                            coords.loc[len(coords)] = [restaurant_coords['latitude'], restaurant_coords['longitude']]
-                        except:
-                            st.write("failed")
-                            continue
+                    try:
+                        # Extract latitude and longitude directly
+                        restaurant_coords = restaurants_df[restaurants_df['id'] == restaurant_id][['lat', 'lon']].iloc[0]
+                        coords.loc[len(coords)] = restaurant_coords
+                    except Exception as e:
+                        st.write(f"Failed to get coordinates for restaurant ID {restaurant_id}: {e}")
+                        continue
 
                 st.map(coords)
         else:
@@ -114,4 +115,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
