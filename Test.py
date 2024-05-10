@@ -97,7 +97,10 @@ def main():
                 st.dataframe(filtered_reviews)
                 coords = pd.DataFrame(columns=['lat', 'lon'])
                 for restaurant_id in filtered_reviews['Restaurant ID']:
-                    coords.add(restaurants_df[restaurants_df['id'] == restaurant_id]['coordinates'])
+                    with st.echo():
+                        st.write(restaurant_id)
+                        coords.add(restaurants_df[restaurants_df['id'] == restaurant_id]['coordinates'])
+                        st.write(restaurants_df[restaurants_df['id'] == restaurant_id]['coordinates'])
 
                 st.map(coords)
         else:
