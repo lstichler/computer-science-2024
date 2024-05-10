@@ -98,7 +98,7 @@ def main():
                     filtered_reviews = filtered_reviews[filtered_reviews['Name'].str.contains(filter_name, case=False)]
                 filtered_reviews = filtered_reviews[(filtered_reviews['Rating'] >= filter_rating[0]) & (filtered_reviews['Rating'] <= filter_rating[1])]
                 
-                st.dataframe(filtered_reviews['Restaurant', 'Comment', 'Name', 'Rating'])
+                st.dataframe(filtered_reviews.drop('Restaurant ID', axis=1)
                 coords = pd.DataFrame(columns=['lat', 'lon'])
                 for restaurant_id in filtered_reviews['Restaurant ID']:
                     try:
