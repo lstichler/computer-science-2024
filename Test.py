@@ -101,7 +101,7 @@ def main():
                         st.write(restaurant_id)
                         restaurant_coords = restaurants_df[restaurants_df['id'] == restaurant_id]['coordinates']
                         st.write(restaurant_coords)
-                        coords.loc[len(coords]) = [restaurant_coords['latitude'], restaurant_coords['longitude']]
+                        coords.loc[len(coords)] = [restaurant_coords['latitude'], restaurant_coords['longitude']]
                         st.write(coords)
 
                 st.map(coords)
