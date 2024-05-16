@@ -22,7 +22,6 @@ def set_bg_image():
 set_bg_image()
 
 # Zeigen des Logos in der Anwendung mit einer Breite von 150 Pixeln
-st.image("Logo Food Cirlce.png", width=150)
 
 # Aufrufen der Yelp-API, um Restaurants basierend auf eine gegebene Location 
 def get_restaurants(location):
